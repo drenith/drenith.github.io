@@ -362,12 +362,33 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		</script>
 	</head>
 	<body>
-		<select id="item">
-			<option value="coarse leather shirt">coarse leather shirt</option>
-			<option value="oric helm">oric helm</option>
-		</select>
-		<input type="text" id="level"/>
-		<button id="submit">Calculate</button>
+		<table>
+			<tr>
+				<td>
+					Item to Craft:
+				</td>
+				<td>
+					<select id="item">
+						<option value="coarse leather shirt">coarse leather shirt</option>
+						<option value="oric helm">oric helm</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Current Level:
+				</td>
+				<td>
+					<input type="text" id="level"/>
+				</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>
+					<button id="submit">Calculate</button>
+				</td>
+			</tr>
+		</table>
 		<br>
 		<pre id="results"></pre>
 	</body>
