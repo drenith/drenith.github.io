@@ -1,0 +1,374 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<script>
+
+const xp_table = [
+	100,
+	205,
+	315,
+	430,
+	550,
+	675,
+	805,
+	940,
+	1080,
+	1225,
+	1375,
+	1530,
+	1690,
+	1855,
+	2025,
+	2200,
+	2380,
+	2565,
+	2755,
+	2950,
+	3150,
+	3355,
+	3565,
+	3780,
+	4000,
+	4225,
+	4455,
+	4690,
+	4930,
+	5175,
+	5425,
+	5680,
+	5940,
+	6205,
+	6475,
+	6750,
+	7030,
+	7315,
+	7605,
+	7900,
+	8200,
+	8505,
+	8815,
+	9130,
+	9450,
+	9775,
+	10105,
+	10440,
+	10780,
+	11125,
+	11625,
+	12175,
+	12775,
+	13425,
+	14125,
+	14875,
+	15675,
+	16525,
+	17425,
+	18375,
+	19375,
+	20425,
+	21525,
+	22675,
+	23875,
+	25125,
+	26425,
+	27775,
+	29175,
+	30625,
+	32125,
+	33675,
+	35275,
+	36925,
+	38625,
+	40375,
+	42175,
+	44025,
+	45925,
+	47875,
+	49875,
+	51925,
+	54025,
+	56175,
+	58375,
+	60625,
+	62925,
+	65275,
+	67675,
+	70125,
+	72625,
+	75175,
+	77775,
+	80425,
+	83125,
+	85875,
+	88675,
+	91525,
+	94425,
+	97375,
+	100909,
+	104629,
+	108535,
+	112627,
+	116905,
+	121369,
+	126019,
+	130855,
+	135877,
+	141085,
+	146479,
+	152059,
+	157825,
+	163777,
+	169915,
+	176239,
+	182749,
+	189445,
+	196327,
+	203395,
+	210649,
+	218089,
+	225715,
+	233527,
+	241525,
+	249709,
+	258079,
+	266635,
+	275377,
+	284305,
+	293419,
+	302719,
+	312205,
+	321877,
+	331735,
+	341779,
+	352009,
+	362425,
+	373027,
+	383815,
+	394789,
+	405949,
+	417295,
+	428827,
+	440545,
+	452449,
+	464539,
+	476815,
+	489277,
+	501925,
+	514325,
+	527345,
+	540985,
+	555245,
+	570125,
+	585625,
+	601745,
+	618485,
+	635845,
+	653825,
+	672425,
+	691645,
+	711485,
+	731945,
+	753025,
+	774725,
+	797045,
+	819985,
+	843545,
+	867725,
+	892525,
+	917945,
+	943985,
+	970645,
+	997925,
+	1025825,
+	1054345,
+	1083485,
+	1113245,
+	1143625,
+	1174625,
+	1206245,
+	1238485,
+	1271345,
+	1304825,
+	1338925,
+	1373645,
+	1408985,
+	1444945,
+	1481525,
+	1518725,
+	1556545,
+	1594985,
+	1634045,
+	1673725,
+	1714025,
+	1754945,
+	1796485,
+	1838645,
+	1881425
+]
+
+var materials = {
+	"infused silk gloves": {
+		"infused silk": 4,
+		"coarse leather": 4,
+		"iron ingot": 1,
+		"armoring xp": 1395
+	},
+	"coarse leather shirt": {
+		"coarse leather": 22,
+		"linen": 12,
+		"iron ingot": 1,
+		"armoring xp": 420
+	},
+	"infused silk": {
+		"weaving xp": 8470,
+		"wirefiber": 8,
+		"silk": 2,
+		"cloth weave": 1
+	},
+	"silk": {
+		"silk threads": 6,
+		"sateen": 2,
+		"cloth weave": 1,
+		"weaving xp": 1665
+	},
+	"sateen": {
+		"linen": 4,
+		"cloth weave": 1,
+		"weaving xp": 190
+	},
+	"oric helm": {
+		"oric ingot": 8,
+		"linen": 6,
+		"coarse leather": 4,
+		"armoring xp": 2790
+	},
+	"oric ingot" : {
+		"flux": 1,
+		"oric ore": 8,
+		"starmetal ingot": 2,
+		"charcoal": 2,
+		"smelting xp": 10010
+	},
+	"starmetal ingot": {
+		"starmetal ore": 6,
+		"steel ingot": 2,
+		"flux": 1,
+		"charcoal": 2,
+		"smelting xp": 2035
+	},
+	"steel ingot": {
+		"iron ingot": 3,
+		"flux": 1,
+		"charcoal": 2,
+		"smelting xp": 228
+	},
+	"iron ingot": {
+		"iron ore": 4,
+		"smelting xp": 36
+	},	
+	"charcoal": {
+		"green wood": 2,
+		"smelting xp": 18
+	},
+	"linen": {
+		"fiber": 4,
+		"weaving xp": 36
+	},
+	"coarse leather": {
+		"rawhide": 4,
+		"tanning xp": 36
+	}
+}
+
+function calc(quant, mat) {
+	let total = {};
+	let components = materials[mat];
+	for(let i=0; i < quant; i++) {
+		for (const [name, count] of Object.entries(components)) {
+			if(materials[name]) {
+				total = merge(total, calc(count, name));
+			} else {
+				total[name] = total[name] ? total[name] += count : count;
+			}
+		}
+	}
+	return total;
+}
+
+function merge(a, b) {
+	let total = {};
+	for (const [name, count] of Object.entries(a)) {
+		total[name] = total[name] ? total[name] += count : count;
+	}
+	for (const [name, count] of Object.entries(b)) {
+		total[name] = total[name] ? total[name] += count : count;
+	}
+	return total;
+}
+
+function sortByValue(a, b) {
+	return b[1] - a[1];
+}
+
+function prettyPrint(json) {
+	let xp = Object.entries(json)
+		.filter(entry => entry[0].includes("xp"))
+		.sort(sortByValue);
+		
+	let mats = Object.entries(json)
+		.filter(entry => !entry[0].includes("xp"))
+		.sort(sortByValue);
+
+	let str = [];
+
+	for(const [name, count] of xp) {
+		str.push(name + ": " + count.toLocaleString());
+	}
+	
+	str.push("");
+	
+	for(const [name, count] of mats) {
+		str.push(name + ": " + count.toLocaleString());
+	}
+	
+	return str.join("\n");
+}
+
+/*
+var material = "oric helm";
+var count = Math.ceil(642940 / materials[material]["armoring xp"]);
+console.log(count);
+prettyPrint(calc(count, material));
+
+material = "coarse leather shirt";
+count = Math.ceil(642940 / materials[material]["armoring xp"]);
+console.log(count);
+prettyPrint(calc(count, material));
+*/
+
+document.addEventListener("DOMContentLoaded", function(event) {
+	document.getElementById("submit").addEventListener("click", function() {
+		let item_to_craft = document.getElementById("item").value;
+		console.log(item_to_craft);
+	
+		let currentLevel = document.getElementById("level").value;
+		let xpNeeded = xp_table[199] - xp_table[currentLevel - 1];
+		
+		let count = Math.ceil(xpNeeded / materials[item_to_craft]["armoring xp"]);		
+		document.getElementById("results").textContent = "count: " + count.toLocaleString() + "\n" + prettyPrint(calc(count, item_to_craft));;
+	});
+});
+		</script>
+	</head>
+	<body>
+		<select id="item">
+			<option value="coarse leather shirt">coarse leather shirt</option>
+			<option value="oric helm">oric helm</option>
+		</select>
+		<input type="text" id="level"/>
+		<button id="submit">Calculate</button>
+		<br>
+		<pre id="results"></pre>
+	</body>
+</html>
