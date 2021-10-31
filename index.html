@@ -4,6 +4,209 @@
 		<meta charset="UTF-8">
 		<script>
 
+const furnishing_xp = [
+	100,
+	215,
+	345,
+	490,
+	650,
+	825,
+	1015,
+	1220,
+	1440,
+	1675,
+	1925,
+	2190,
+	2470,
+	2765,
+	3075,
+	3400,
+	3740,
+	4095,
+	4465,
+	4850,
+	5250,
+	5665,
+	6095,
+	6540,
+	7000,
+	7475,
+	7965,
+	8470,
+	8990,
+	9525,
+	10075,
+	10640,
+	11220,
+	11815,
+	12425,
+	13050,
+	13690,
+	14345,
+	15015,
+	15700,
+	16400,
+	17115,
+	17845,
+	18590,
+	19350,
+	20125,
+	20915,
+	21720,
+	22540,
+	23375,
+	24575,
+	25855,
+	27215,
+	28655,
+	30175,
+	31775,
+	33455,
+	35215,
+	37055,
+	38975,
+	40975,
+	43055,
+	45215,
+	47455,
+	49775,
+	52175,
+	54655,
+	57215,
+	59855,
+	62575,
+	65375,
+	68255,
+	71215,
+	74255,
+	77375,
+	80575,
+	83855,
+	87215,
+	90655,
+	94175,
+	97775,
+	101455,
+	105215,
+	109055,
+	112975,
+	116975,
+	121055,
+	125215,
+	129455,
+	133775,
+	138175,
+	142655,
+	147215,
+	151855,
+	156575,
+	161375,
+	166255,
+	171215,
+	176255,
+	181375,
+	190975,
+	201055,
+	211615,
+	222655,
+	234175,
+	246175,
+	258655,
+	271615,
+	285055,
+	298975,
+	313375,
+	328255,
+	343615,
+	359455,
+	375775,
+	392575,
+	409855,
+	427615,
+	445855,
+	464575,
+	483775,
+	503455,
+	523615,
+	544255,
+	565375,
+	586975,
+	609055,
+	631615,
+	654655,
+	678175,
+	702175,
+	726655,
+	751615,
+	777055,
+	802975,
+	829375,
+	856255,
+	883615,
+	911455,
+	939775,
+	968575,
+	997855,
+	1027615,
+	1057855,
+	1088575,
+	1119775,
+	1151455,
+	1183615,
+	1216255,
+	1249375,
+	1319775,
+	1392735,
+	1468255,
+	1546335,
+	1626975,
+	1710175,
+	1795935,
+	1884255,
+	1975135,
+	2068575,
+	2164575,
+	2263135,
+	2364255,
+	2467935,
+	2574175,
+	2682975,
+	2794335,
+	2908255,
+	3024735,
+	3143775,
+	3265375,
+	3389535,
+	3516255,
+	3645535,
+	3777375,
+	3911775,
+	4048735,
+	4188255,
+	4330335,
+	4474975,
+	4622175,
+	4771935,
+	4924255,
+	5079135,
+	5236575,
+	5396575,
+	5559135,
+	5724255,
+	5891935,
+	6062175,
+	6234975,
+	6410335,
+	6588255,
+	6768735,
+	6951775,
+	7137375,
+	7325535,
+	7516255,
+	7709535,
+	7905375
+]
+
 const xp_table = [
 	100,
 	205,
@@ -278,6 +481,16 @@ var materials = {
 	"coarse leather": {
 		"rawhide": 4,
 		"tanning xp": 36
+	},
+	"oak stain": {
+		"potent solvent": 10,
+		"oil": 4,
+		"furnishing xp": 336
+	},
+	"mahogany stain": {
+		"pure solvent": 10,
+		"oil": 4,
+		"furnishing xp": 1344
 	}
 }
 
@@ -335,27 +548,24 @@ function prettyPrint(json) {
 	return str.join("\n");
 }
 
-/*
-var material = "oric helm";
-var count = Math.ceil(642940 / materials[material]["armoring xp"]);
-console.log(count);
-prettyPrint(calc(count, material));
-
-material = "coarse leather shirt";
-count = Math.ceil(642940 / materials[material]["armoring xp"]);
-console.log(count);
-prettyPrint(calc(count, material));
-*/
-
 document.addEventListener("DOMContentLoaded", function(event) {
 	document.getElementById("submit").addEventListener("click", function() {
 		let item_to_craft = document.getElementById("item").value;
-		console.log(item_to_craft);
 	
 		let currentLevel = document.getElementById("level").value;
-		let xpNeeded = xp_table[199] - xp_table[currentLevel - 1];
+		let targetLevel = document.getElementById("level_target").value;
 		
-		let count = Math.ceil(xpNeeded / materials[item_to_craft]["armoring xp"]);		
+		let type = document.getElementById("type").value;
+		console.log("type: " + type);
+		
+		let xpNeeded;
+		if(type === "furnishing") {
+			xpNeeded = furnishing_xp[targetLevel - 1] - furnishing_xp[currentLevel - 1];
+		} else {
+			xpNeeded = xp_table[targetLevel - 1] - xp_table[currentLevel - 1];
+		}
+		
+		let count = Math.ceil(xpNeeded / materials[item_to_craft][type + " xp"]);
 		document.getElementById("results").textContent = "count: " + count.toLocaleString() + "\n" + prettyPrint(calc(count, item_to_craft));;
 	});
 });
@@ -371,15 +581,37 @@ document.addEventListener("DOMContentLoaded", function(event) {
 					<select id="item">
 						<option value="coarse leather shirt">coarse leather shirt</option>
 						<option value="oric helm">oric helm</option>
+						<option value="infused silk gloves">infused silk gloves</option>
+						<option value="oak stain">oak stain</option>
+						<option value="mahogany stain">mahogany stain</option>
 					</select>
 				</td>
 			</tr>
 			<tr>
 				<td>
+					XP Type:
+				</td>
+				<td>
+					<select id="type">
+						<option value="armoring">armoring</option>
+						<option value="furnishing">furnishing</option>
+					</select>
+				</td>
+			</tr>			
+			<tr>
+				<td>
 					Current Level:
 				</td>
 				<td>
-					<input type="text" id="level"/>
+					<input type="number" min="1" max="200" id="level"/>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Target Level:
+				</td>
+				<td>
+					<input type="number" min="1" max="200" id="level_target" value="200"/>
 				</td>
 			</tr>
 			<tr>
