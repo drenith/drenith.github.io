@@ -518,7 +518,37 @@ var materials = {
 	"cut pristine gem": {
 		"pristine gem": 1,
 		"quintessence": 3
-	}
+	},
+	"iron spear": {
+		"timber": 10,
+		"iron ingot": 5,
+		"coarse leather": 2,
+		"engineering xp": 204
+	},
+	"orichalcum spear": {
+		"ironwood planks": 13,
+		"iron ingot": 5,
+		"coarse leather": 2,
+		"engineering xp": 3100
+	},
+	"ironwood planks": {
+		"ironwood": 8,
+		"wyrdwood planks": 2,
+		"sandpaper": 1
+	},
+	"wyrdwood planks": {
+		"wyrdwood": 6,
+		"lumber": 2,
+		"sandpaper": 1
+	},
+	"lumber": {
+		"aged wood": 4,
+		"timber": 2,
+		"sandpaper": 1
+	},
+	"timber": {
+		"green wood": 4
+	}	
 }
 
 function calc(quant, mat) {
@@ -613,6 +643,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
 						<option value="mahogany stain">mahogany stain</option>
 						<option value="oric setting">oric setting</option>
 						<option value="pristine jewelry">pristine jewelry</option>
+						<option value="iron spear">iron spear</option>
+						<option value="orichalcum spear">orichalcum spear</option>
 					</select>
 				</td>
 			</tr>
@@ -625,6 +657,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 						<option value="armoring">armoring</option>
 						<option value="furnishing">furnishing</option>
 						<option value="jewelry">jewelry</option>
+						<option value="engineering">engineering</option>
 					</select>
 				</td>
 			</tr>			
