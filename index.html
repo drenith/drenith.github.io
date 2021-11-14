@@ -552,7 +552,20 @@ var materials = {
 	"timber": {
 		"green wood": 4,
 		"woodworking xp": 36
-	}	
+	},
+	"weak honing stone": {
+		"stone block": 1,
+		"death mote": 1,
+		"fire mote": 1,
+		"weaponsmithing xp": 36
+	},
+	"infused health potion": {
+		"azoth water": 1,
+		"earth mote": 1,
+		"soul mote": 1,
+		"water": 1,
+		"arcana xp": 620
+	}
 }
 
 function calc(quant, mat) {
@@ -649,6 +662,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
 						<option value="pristine jewelry">pristine jewelry</option>
 						<option value="iron spear">iron spear</option>
 						<option value="orichalcum spear">orichalcum spear</option>
+						<option value="weak honing stone">weak honing stone</option>
+						<option value="infused health potion">infused health potion</option>
 					</select>
 				</td>
 			</tr>
@@ -662,6 +677,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
 						<option value="furnishing">furnishing</option>
 						<option value="jewelry">jewelry</option>
 						<option value="engineering">engineering</option>
+						<option value="weaponsmithing">weaponsmithing</option>
+						<option value="arcana">arcana</option>
 					</select>
 				</td>
 			</tr>			
