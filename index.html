@@ -639,7 +639,47 @@ function prettyPrint(json) {
 	return str.join("\n");
 }
 
+function updateXPSelect() {
+	let xpType = document.getElementById("type");
+	xpType.innerHTML = '';
+
+	let materialList = Object.values(materials)
+		.map(e => Object.keys(e))
+		.reduce((acc, a) => {
+			a.forEach(e => acc.add(e));
+			return acc;
+		}, new Set());
+		
+	let xpTypes = [...materialList]
+		.filter(e => e.endsWith("xp"))
+		.forEach(element => {
+			let option = document.createElement('option');
+			option.value = element.replace(" xp", "");
+			option.innerHTML = element.replace(" xp", "");
+			xpType.appendChild(option);		
+		});	
+}
+
+function updateItemSelect() {
+	let xpType = document.getElementById("type").value + " xp";
+	
+	let itemList = document.getElementById("item");
+	
+	itemList.innerHTML = "";
+	Object.entries(materials).filter(entry => !!entry[1][xpType]).map(entry => entry[0]).forEach(element => {
+		let option = document.createElement('option');
+		option.value = element;
+		option.innerHTML = element;
+		itemList.appendChild(option);
+	});
+}
+
 document.addEventListener("DOMContentLoaded", function(event) {
+	updateXPSelect();
+	updateItemSelect();
+	
+	document.getElementById("type").addEventListener("change", updateItemSelect);
+
 	document.getElementById("submit").addEventListener("click", function() {
 		let item_to_craft = document.getElementById("item").value;
 	
@@ -666,41 +706,22 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		<table>
 			<tr>
 				<td>
-					Item to Craft:
-				</td>
-				<td>
-					<select id="item">
-						<option value="coarse leather shirt">coarse leather shirt</option>
-						<option value="oric helm">oric helm</option>
-						<option value="infused silk gloves">infused silk gloves</option>
-						<option value="oak stain">oak stain</option>
-						<option value="mahogany stain">mahogany stain</option>
-						<option value="oric setting">oric setting</option>
-						<option value="pristine jewelry">pristine jewelry</option>
-						<option value="iron spear">iron spear</option>
-						<option value="orichalcum spear">orichalcum spear</option>
-						<option value="weak honing stone">weak honing stone</option>
-						<option value="infused health potion">infused health potion</option>
-						<option value="tree stump side table">tree stump side table</option>
-						<option value="iron longsword">iron longsword</option>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<td>
 					XP Type:
 				</td>
 				<td>
 					<select id="type">
-						<option value="armoring">armoring</option>
-						<option value="furnishing">furnishing</option>
-						<option value="jewelry">jewelry</option>
-						<option value="engineering">engineering</option>
-						<option value="weaponsmithing">weaponsmithing</option>
-						<option value="arcana">arcana</option>
 					</select>
 				</td>
-			</tr>			
+			</tr>		
+			<tr>
+				<td>
+					Item to Craft:
+				</td>
+				<td>
+					<select id="item">
+					</select>
+				</td>
+			</tr>
 			<tr>
 				<td>
 					Current Level:
