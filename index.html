@@ -482,6 +482,11 @@ var materials = {
 		"rawhide": 4,
 		"tanning xp": 36
 	},
+	"cot": {
+		"feather": 1,
+		"maple stain": 2,
+		"furnishing xp": 24
+	},
 	"maple stain": {
 		"weak solvent": 1,
 		"oil": 0.4,
@@ -582,6 +587,29 @@ var materials = {
 		"timber": 2,
 		"coarse leather": 1,
 		"weaponsmithing xp": 120
+	},
+	"rugged leather": {
+		"coarse leather": 4,
+		"tannin": 1,
+		"leatherworking xp": 190
+	},	
+	"layered leather": {
+		"iron hide": 8,
+		"layered leather": 2,
+		"tannin": 1,
+		"leatherworking xp": 8470
+	},	
+	"infused leather": {
+		"thick hide": 6,
+		"rugged leather": 2,
+		"tannin": 1,
+		"leatherworking xp": 1665
+	},
+	"runic leather": {
+		"infused leather": 5,
+		"smolderhide": 1,
+		"scarhide": 1,
+		"aged tannin": 1
 	}
 }
 
@@ -674,6 +702,16 @@ function updateItemSelect() {
 	});
 }
 
+function updateItemToCraft() {
+	let itemList = document.getElementById('item_to_craft');
+	Object.keys(materials).sort().forEach(element => {
+		let option = document.createElement('option');
+		option.value = element;
+		option.innerHTML = element;
+		itemList.appendChild(option);
+	});
+}
+
 document.addEventListener("DOMContentLoaded", function(event) {
 	updateXPSelect();
 	updateItemSelect();
@@ -698,6 +736,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		
 		let count = Math.ceil(xpNeeded / materials[item_to_craft][type + " xp"]);
 		document.getElementById("results").textContent = "count: " + count.toLocaleString() + "\n" + prettyPrint(calc(count, item_to_craft));;
+	});
+	
+	updateItemToCraft();
+	document.getElementById('submit2').addEventListener('click', function() {
+		let item_to_craft = document.getElementById('item_to_craft').value;		
+		let quantity = document.getElementById('quantity').value;		
+		
+		document.getElementById('results2').textContent = prettyPrint(calc(quantity, item_to_craft));
 	});
 });
 		</script>
@@ -747,49 +793,31 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		</table>
 		<br>
 		<pre id="results"></pre>
-<script src="void_gauntlet.js"></script>
-<div id="description" style="display: inline-block; width:600px; padding-left:5px; font-size:24px"></div>
-
-<img src="void_gauntlet.png" usemap="#image-map" style="float:left;"/>
-<map name="image-map">
-    <area target="" alt="oblivion" onmouseover="onHover('oblivion')" href="" coords="425,175,493,241" shape="rect">
-    <area target="" alt="void_blade" onmouseover="onHover('void_blade')" href="" coords="243,88,313,153" shape="rect">
-    <area target="" alt="petrifying_scream" onmouseover="onHover('petrifying_scream')" href="" coords="64,270,129,332" shape="rect">
-    <area target="" alt="baleful_tether" onmouseover="onHover('baleful_tether')" href="" coords="609,178,674,239" shape="rect">
-    <area target="" alt="orb_of_decay" onmouseover="onHover('orb_of_decay')" href="" coords="792,86,853,148" shape="rect">
-    <area target="" alt="essence_rupture" onmouseover="onHover('essence_rupture')" href="" coords="969,270,1030,330" shape="rect">
-    <area target="" alt="withering_oblivion" onmouseover="onHover('withering_oblivion')" href="" coords="457,300,24" shape="circle">
-    <area target="" alt="invigorating_oblivion" onmouseover="onHover('invigorating_oblivion')" href="" coords="458,388,24" shape="circle">
-    <area target="" alt="keen_confidence" onmouseover="onHover('keen_confidence')" href="" coords="368,116,25" shape="circle">
-    <area target="" alt="refreshing_precision" onmouseover="onHover('refreshing_precision')" href="" coords="369,210,22" shape="circle">
-    <area target="" alt="efficient_harvest" onmouseover="onHover('efficient_harvest')" href="" coords="367,300,22" shape="circle">
-    <area target="" alt="leeching_agony" onmouseover="onHover('leeching_agony')" href="" coords="368,392,23" shape="circle">
-    <area target="" alt="foresaken_pact" onmouseover="onHover('foresaken_pact')" href="" coords="189,120,26" shape="circle">
-    <area target="" alt="empowering_proximity" onmouseover="onHover('empowering_proximity')" href="" coords="188,301,23" shape="circle">
-    <area target="" alt="refreshing_frailty" onmouseover="onHover('refreshing_frailty')" href="" coords="188,483,24" shape="circle">
-    <area target="" alt="fortified_blade" onmouseover="onHover('fortified_blade')" href="" coords="278,209,21" shape="circle">
-    <area target="" alt="vicious_void" onmouseover="onHover('vicious_void')" href="" coords="278,391,25" shape="circle">
-    <area target="" alt="leeching_blade" onmouseover="onHover('leeching_blade')" href="" coords="279,485,23" shape="circle">
-    <area target="" alt="keen_humility" onmouseover="onHover('keen_humility')" href="" coords="99,210,25" shape="circle">
-    <area target="" alt="bone-chilling_voice" onmouseover="onHover('bone-chilling_voice')" href="" coords="97,391,24" shape="circle">
-    <area target="" alt="fortifying_echos" onmouseover="onHover('fortifying_echos')" href="" coords="98,481,21" shape="circle">
-    <area target="" alt="voidcaller" onmouseover="onHover('voidcaller')" href="" coords="279,596,32" shape="circle">
-    <area target="" alt="deadly_range" onmouseover="onHover('deadly_range')" href="" coords="640,119,23" shape="circle">
-    <area target="" alt="fervent_thirst" onmouseover="onHover('fervent_thirst')" href="" coords="1000,119,24" shape="circle">
-    <area target="" alt="radiant_efficiency" onmouseover="onHover('radiant_efficiency')" href="" coords="733,208,24" shape="circle">
-    <area target="" alt="refreshing_harvest" onmouseover="onHover('refreshing_harvest')" href="" coords="910,210,23" shape="circle">
-    <area target="" alt="draining_orb" onmouseover="onHover('draining_orb')" href="" coords="821,210,23" shape="circle">
-    <area target="" alt="tethered_refresh" onmouseover="onHover('tethered_refresh')" href="" coords="638,301,23" shape="circle">
-    <area target="" alt="tethered_focus" onmouseover="onHover('tethered_focus')" href="" coords="643,392,24" shape="circle">
-    <area target="" alt="soul_eater" onmouseover="onHover('soul_eater')" href="" coords="641,482,21" shape="circle">
-    <area target="" alt="leeching_bolts" onmouseover="onHover('leeching_bolts')" href="" coords="730,300,21" shape="circle">
-    <area target="" alt="slowing_orb" onmouseover="onHover('slowing_orb')" href="" coords="822,301,22" shape="circle">
-    <area target="" alt="detonating_orb" onmouseover="onHover('detonating_orb')" href="" coords="821,393,21" shape="circle">
-    <area target="" alt="extended_suffering" onmouseover="onHover('extended_suffering')" href="" coords="911,389,24" shape="circle">
-    <area target="" alt="invigorating_rupture" onmouseover="onHover('invigorating_rupture')" href="" coords="999,391,23" shape="circle">
-    <area target="" alt="overflowing_essence" onmouseover="onHover('overflowing_essence')" href="" coords="999,482,22" shape="circle">
-    <area target="" alt="mending_evasion" onmouseover="onHover('mending_evasion')" href="" coords="729,482,21" shape="circle">
-    <area target="" alt="glimpse_of_the_void" onmouseover="onHover('glimpse_of_the_void')" href="" coords="817,596,38" shape="circle">
-</map>
+		<table>
+			<tr>
+				<td>
+					Item to Craft:
+				</td>
+				<td>
+					<select id="item_to_craft">
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Quantity:
+				</td>
+				<td>
+					<input type="number" min="1" max="100000" id="quantity"/>
+				</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>
+					<button id="submit2">Calculate</button>
+				</td>
+			</tr>			
+		</table>
+		<pre id="results2"></pre>
 	</body>
 </html>
